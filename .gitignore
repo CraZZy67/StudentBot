@@ -155,5 +155,7 @@ cython_debug/
 # PyCharm
 .idea/
 
-# Other 
+# Other
 settings.py
+credentials.json
+token.json
