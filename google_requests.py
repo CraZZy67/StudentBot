@@ -9,37 +9,48 @@ from googleapiclient.errors import HttpError
 from settings import SCOPES, ID_SHEET, NAME_LIST
 
 
-SAMPLE_RANGE_NAME = f"{NAME_LIST}!A2:E"
+class GoogleRequests:
+    def __init__(self):
 
-creds = None
-if os.path.exists("token.json"):
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        self.creds = None
+        self.service = None
+        self.sheet_d = None
 
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-          "credentials.json", SCOPES
-        )
-        creds = flow.run_local_server(port=0)
+        if os.path.exists("token.json"):
+            self.creds = Credentials.from_authorized_user_file("token.json", SCOPES)
 
-    with open("token.json", "w") as token:
-        token.write(creds.to_json())
+        if not self.creds or not self.creds.valid:
+            if self.creds and self.creds.expired and self.creds.refresh_token:
+                self.creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                  "credentials.json", SCOPES
+                )
+                self.creds = flow.run_local_server(port=0)
 
-try:
-    service = build("sheets", "v4", credentials=creds)
+            with open("token.json", "w") as token:
+                token.write(self.creds.to_json())
 
-    sheet = service.spreadsheets()
-    result = (sheet.values().get(spreadsheetId=ID_SHEET, range=SAMPLE_RANGE_NAME).execute())
-    values = result.get("values", [])
+    def get_sheet(self):
 
-    if not values:
-        print("No data found.")
-    else:
-        print("Name, Major:")
-        for row in values:
-            print(f"{row[0]}, {row[-1]}")
+        try:
 
-except HttpError as err:
-    print(err)
+            count = 0
+            sheet_dict = dict()
+
+            self.service = build("sheets", "v4", credentials=self.creds)
+
+            sheet = self.service.spreadsheets()
+            result = (sheet.values().get(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D").execute())
+            values = result.get("values", [])
+
+            for row in values:
+
+                sheet_dict[count] = row
+                count += 1
+
+            print("Таблица успешно извлечена!")
+            self.sheet_d = sheet_dict if len(sheet_dict) > 0 else "empty"
+
+        except HttpError as err:
+            print(err)
