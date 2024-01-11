@@ -54,3 +54,26 @@ class GoogleRequests:
 
         except HttpError as err:
             print(err)
+
+    def update_sheet(self, sheet_dict: dict):
+
+        try:
+            values = []
+            for v in sheet_dict.values():
+                values.append(v)
+
+            self.service = build("sheets", "v4", credentials=self.creds)
+            sheet = self.service.spreadsheets()
+
+            result_clear = (sheet.values().clear(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D").execute())
+            print(f"Таблица успешно отчищена!, clearedRange : {result_clear['clearedRange']}")
+
+            if len(values) > 0:
+                result_update = (sheet.values().update(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D",
+                                 valueInputOption="USER_ENTERED", body={"values": values}).execute()
+                                 )
+                print(f"Таблица успешно обновлена!, updatedRange : {result_update['updatedRange']}, "
+                      f"updatedCells: {result_update['updatedCells']}")
+
+        except HttpError as err:
+            print(err)
