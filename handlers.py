@@ -62,7 +62,6 @@ try:
         data = await state.update_data(value_ls=message.text)
         AddState.add_in_sheet([data["name"], data["lesson"], f"{0}/" + data["value_ls"]])
         await state.clear()
-        print(gs.sheet_d)
         await message.answer("Информация записана в таблицу", reply_markup=ReplyKeyboardRemove())
         await message.answer("Выберите действие!", reply_markup=start_kb.as_markup())
         print()
