@@ -32,9 +32,7 @@ class GoogleRequests:
                 token.write(self.creds.to_json())
 
     def get_sheet(self):
-
         try:
-
             count = 0
             sheet_dict = dict()
 
@@ -45,7 +43,6 @@ class GoogleRequests:
             values = result.get("values", [])
 
             for row in values:
-
                 sheet_dict[count] = row
                 count += 1
 
@@ -77,3 +74,7 @@ class GoogleRequests:
 
         except HttpError as err:
             print(err)
+
+
+gs = GoogleRequests()
+gs.get_sheet()
