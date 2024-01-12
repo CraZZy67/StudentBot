@@ -15,7 +15,7 @@ try:
             if gs.sheet_d != "empty":
                 gs.sheet_d[f"{len(gs.sheet_d)}"] = data
             else:
-                gs.sheet_d = {f"{len(gs.sheet_d)}": data}
+                gs.sheet_d = {"0": data}
 
 except Exception as ex:
     print(f"Возникла ошибка: {ex} в {__name__}")

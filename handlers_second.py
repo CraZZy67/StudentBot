@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from aiogram import F, Router
 from aiogram.types import CallbackQuery
 
 from google_requests import gs
-from secondary_fuctions import formatting_text
+from secondary_fuctions import formatting_text, add_exam_value
 from keyboards import kb_for_list, start_kb
+from callback_factory import CallbackStudent
 
 additional_router = Router()
 
@@ -14,3 +17,31 @@ async def handl_list(callback: CallbackQuery):
         await callback.message.edit_text(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d))
     if callback.data == "BACK":
         await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+
+
+@additional_router.callback_query(CallbackStudent.filter(F.type == "list"))
+async def handl_buttons_l(callback: CallbackQuery, callback_data: CallbackStudent):
+    print(gs.sheet_d)
+    string_or_finish = add_exam_value(gs.sheet_d[f"{callback_data.order - 1}"][2])
+
+    if string_or_finish != "finish":
+        gs.sheet_d[f"{callback_data.order - 1}"][2] = string_or_finish
+
+        if gs.sheet_d[f"{callback_data.order - 1}"][3] == "Занятий еще не было":
+            gs.sheet_d[f"{callback_data.order - 1}"][3] = f"{datetime.now().date()}, "
+        else:
+            gs.sheet_d[f"{callback_data.order - 1}"][3] += f"{datetime.now().date()}, "
+
+        await callback.message.edit_text(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d))
+    else:
+
+        gs.sheet_d[f"{callback_data.order - 1}"][3] += str(datetime.now().date())
+        await callback.message.delete()
+        await callback.message.answer("Курс окончен!")
+        await callback.message.answer(f"Имя: {gs.sheet_d[str(callback_data.order - 1)][0]} | Предмет: {gs.sheet_d[str(callback_data.order - 1)][1]} | "
+                                      f"Уроков: {gs.sheet_d[str(callback_data.order - 1)][2][2]}\nДаты: {gs.sheet_d[str(callback_data.order - 1)][3]}")
+        gs.sheet_d[f"{callback_data.order - 1}"][3] = "Занятий еще не было"
+        gs.sheet_d[f"{callback_data.order - 1}"][2] = f"0/{gs.sheet_d[str(callback_data.order - 1)][2][2]}"
+        await callback.message.answer(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d))
+
+

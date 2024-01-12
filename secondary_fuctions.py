@@ -13,3 +13,15 @@ def formatting_text(sheet: dict):
         return text_list
     else:
         return "Записей еще нет!"
+
+
+def add_exam_value(count_str: str):
+    count_list = count_str.split("/")
+    add = int(count_list[0]) + 1
+
+    if add != int(count_list[1]):
+        result_string = f"{add}/{count_list[1]}"
+        return result_string
+
+    else:
+        return "finish"

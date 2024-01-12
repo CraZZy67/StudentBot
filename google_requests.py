@@ -43,9 +43,9 @@ class GoogleRequests:
             values = result.get("values", [])
 
             for row in values:
-                sheet_dict[count] = row
+                sheet_dict[str(count)] = row
                 count += 1
-
+            count = 0
             print("Таблица успешно извлечена!")
             self.sheet_d = sheet_dict if len(sheet_dict) > 0 else "empty"
 
@@ -56,8 +56,9 @@ class GoogleRequests:
 
         try:
             values = []
-            for v in sheet_dict.values():
-                values.append(v)
+            if len(sheet_dict) > 0 and sheet_dict != "empty":
+                for v in sheet_dict.values():
+                    values.append(v)
 
             self.service = build("sheets", "v4", credentials=self.creds)
             sheet = self.service.spreadsheets()
