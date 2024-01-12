@@ -2,8 +2,9 @@ from asyncio import run
 
 from create_bot import bot, dp
 from handlers import basic_router
+from handlers_second import additional_router
 
-dp.include_routers(basic_router)
+dp.include_routers(basic_router, additional_router)
 
 try:
     async def main():

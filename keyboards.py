@@ -1,6 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton, ReplyKeyboardMarkup
 
 from settings import URL_TABLE
+from callback_factory import CallbackStudent
 
 try:
 
@@ -47,6 +48,24 @@ try:
 
         return builder_understand.as_markup()
 
+    def kb_for_list(sheet: dict):
+        list_builder = InlineKeyboardBuilder()
+        if len(sheet) > 0 and sheet != "empty":
+
+            count_line = 1
+
+            for value in sheet.values():
+                list_builder.button(text=f"{count_line}. {value[0]}",
+                                    callback_data=CallbackStudent(type="list", order=count_line, name=f"{value[0]}")
+                                    )
+                count_line += 1
+
+            list_builder.button(text="Назад", callback_data="BACK")
+            list_builder.adjust(*[2] * count_line)
+            return list_builder.as_markup()
+
+        list_builder.button(text="Назад", callback_data="BACK")
+        return list_builder.as_markup()
 
 except Exception as ex:
     print(f"Возникла ошибка: {ex}, в {__name__}")
