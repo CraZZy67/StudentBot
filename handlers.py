@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
-from keyboards import start_kb, format_kb, add_buttons_les, add_buttons_classes
+from keyboards import start_kb, format_kb, add_buttons_les, add_buttons_classes, confirm, understand
 from fsm import AddState
 from google_requests import gs
 from settings import NUMBER_OF_CLASSES, LESSONS, NUMBER_OF_CLASSES_L, LESSONS_L, PERMISSION_ID
@@ -79,6 +79,31 @@ try:
         else:
             await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
 
+
+    @basic_router.callback_query(F.data.in_({"SAVE_CHANGES", "LOAD_SHEET"}))
+    async def handling_format(callback: CallbackQuery):
+        if callback.data == "LOAD_SHEET":
+            await callback.message.edit_text("Вы уверенны в том что хотите загрузить таблицу? "
+                                             "Все не сохраненные изменения будут потеряны!", reply_markup=confirm())
+        else:
+            gs.update_sheet(gs.sheet_d)
+            await callback.message.answer("Изменения успешно сохранены!", reply_markup=understand())
+            await callback.answer()
+
+
+    @basic_router.callback_query(F.data.in_({"UNDERSTAND", "CONFIRM", "CANCEL"}))
+    async def handling_format(callback: CallbackQuery):
+
+        if callback.data == "UNDERSTAND":
+            await callback.message.delete()
+
+        elif callback.data == "CONFIRM":
+            gs.get_sheet()
+            await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+            await callback.message.answer("Таблица успешно загружена!", reply_markup=understand())
+
+        else:
+            await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
 
 except Exception as ex:
     print(f"Возникла ошибка: {ex}, в {__name__}")

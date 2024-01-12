@@ -32,6 +32,21 @@ try:
                   InlineKeyboardButton(text="Назад", callback_data="BACK_TO_START"))
     format_kb.adjust(1, 1)
 
+    def confirm():
+        builder_confirm = InlineKeyboardBuilder()
+        builder_confirm.add(InlineKeyboardButton(text="Подтвердить", callback_data="CONFIRM"),
+                            InlineKeyboardButton(text="Отмена", callback_data="CANCEL"))
+        builder_confirm.adjust(2)
+
+        return builder_confirm.as_markup()
+
+
+    def understand():
+        builder_understand = InlineKeyboardBuilder()
+        builder_understand.add(InlineKeyboardButton(text="Понятно", callback_data="UNDERSTAND"))
+
+        return builder_understand.as_markup()
+
 
 except Exception as ex:
     print(f"Возникла ошибка: {ex}, в {__name__}")
