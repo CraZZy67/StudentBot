@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
-from keyboards import start_kb, format_kb, add_buttons_les, add_buttons_classes, confirm, understand
+from keyboards import start_k, format_k, add_buttons_les, add_buttons_classes, confirm, understand
 from fsm import AddState
 from google_requests import gs
 from settings import NUMBER_OF_CLASSES, LESSONS, NUMBER_OF_CLASSES_L, LESSONS_L, PERMISSION_ID
@@ -14,7 +14,7 @@ try:
     @basic_router.message(F.text == "/start")
     async def start(message: Message):
         if message.from_user.id in PERMISSION_ID:
-            await message.answer("Выберите действие!", reply_markup=start_kb.as_markup())
+            await message.answer("Выберите действие!", reply_markup=start_k())
         else:
             await message.answer("Этот бот вам недоступен =)")
 
@@ -35,7 +35,7 @@ try:
 
         await state.clear()
         await message.answer("Совершен выход", reply_markup=ReplyKeyboardRemove())
-        await message.answer("Выберите действие!", reply_markup=start_kb.as_markup())
+        await message.answer("Выберите действие!", reply_markup=start_k())
 
 
     @basic_router.message(AddState.name)
@@ -63,7 +63,7 @@ try:
         AddState.add_in_sheet([data["name"], data["lesson"], f"{0}/" + data["value_ls"]])
         await state.clear()
         await message.answer("Информация записана в таблицу", reply_markup=ReplyKeyboardRemove())
-        await message.answer("Выберите действие!", reply_markup=start_kb.as_markup())
+        await message.answer("Выберите действие!", reply_markup=start_k())
         print()
 
 
@@ -75,9 +75,9 @@ try:
     @basic_router.callback_query(F.data.in_({"FORMATTING", "BACK_TO_START"}))
     async def handling_format(callback: CallbackQuery):
         if callback.data == "FORMATTING":
-            await callback.message.edit_text("Ссылка для редактирования таблицы:", reply_markup=format_kb.as_markup())
+            await callback.message.edit_text("Ссылка для редактирования таблицы:", reply_markup=format_k())
         else:
-            await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+            await callback.message.edit_text("Выберите действие!", reply_markup=start_k())
 
 
     @basic_router.callback_query(F.data.in_({"SAVE_CHANGES", "LOAD_SHEET"}))
@@ -99,11 +99,11 @@ try:
 
         elif callback.data == "CONFIRM":
             gs.get_sheet()
-            await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+            await callback.message.edit_text("Выберите действие!", reply_markup=start_k())
             await callback.message.answer("Таблица успешно загружена!", reply_markup=understand())
 
         else:
-            await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+            await callback.message.edit_text("Выберите действие!", reply_markup=start_k())
 
 except Exception as ex:
     print(f"Возникла ошибка: {ex}, в {__name__}")

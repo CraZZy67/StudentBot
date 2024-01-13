@@ -4,16 +4,17 @@ from settings import URL_TABLE
 from callback_factory import CallbackStudent
 
 try:
+    def start_k():
+        start_kb = InlineKeyboardBuilder()
 
-    start_kb = InlineKeyboardBuilder()
-
-    start_kb.add(InlineKeyboardButton(text="Добавить", callback_data="ADD"),
-                 InlineKeyboardButton(text="Удалить", callback_data="DELETE"))
-    start_kb.add(InlineKeyboardButton(text="Лист", callback_data="LIST"),
-                 InlineKeyboardButton(text="Редактировать", callback_data="FORMATTING"))
-    start_kb.add(InlineKeyboardButton(text="Сохранить изменения", callback_data="SAVE_CHANGES"),
-                 InlineKeyboardButton(text="Загрузить таблицу", callback_data="LOAD_SHEET"))
-    start_kb.adjust(2, 2, 2)
+        start_kb.add(InlineKeyboardButton(text="Добавить", callback_data="ADD"),
+                     InlineKeyboardButton(text="Удалить", callback_data="DELETE"))
+        start_kb.add(InlineKeyboardButton(text="Лист", callback_data="LIST"),
+                     InlineKeyboardButton(text="Редактировать", callback_data="FORMATTING"))
+        start_kb.add(InlineKeyboardButton(text="Сохранить изменения", callback_data="SAVE_CHANGES"),
+                     InlineKeyboardButton(text="Загрузить таблицу", callback_data="LOAD_SHEET"))
+        start_kb.adjust(2, 2, 2)
+        return start_kb.as_markup()
 
 
     def add_buttons_les(list_name):
@@ -28,10 +29,12 @@ try:
         return classes_kb
 
 
-    format_kb = InlineKeyboardBuilder()
-    format_kb.add(InlineKeyboardButton(text="Гугл таблица", url=URL_TABLE),
-                  InlineKeyboardButton(text="Назад", callback_data="BACK_TO_START"))
-    format_kb.adjust(1, 1)
+    def format_k():
+        format_kb = InlineKeyboardBuilder()
+        format_kb.add(InlineKeyboardButton(text="Гугл таблица", url=URL_TABLE),
+                      InlineKeyboardButton(text="Назад", callback_data="BACK_TO_START"))
+        format_kb.adjust(1, 1)
+        return format_kb.as_markup()
 
     def confirm(data: str):
         builder_confirm = InlineKeyboardBuilder()

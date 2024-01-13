@@ -5,7 +5,7 @@ from aiogram.types import CallbackQuery
 
 from google_requests import gs
 from secondary_fuctions import formatting_text, add_exam_value, shuffle
-from keyboards import kb_for_list, start_kb
+from keyboards import kb_for_list, start_k
 from callback_factory import CallbackStudent
 
 additional_router = Router()
@@ -16,7 +16,7 @@ async def handl_list(callback: CallbackQuery):
     if callback.data == "LIST":
         await callback.message.edit_text(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d, view="list"))
     elif callback.data == "BACK":
-        await callback.message.edit_text("Выберите действие!", reply_markup=start_kb.as_markup())
+        await callback.message.edit_text("Выберите действие!", reply_markup=start_k())
     else:
         await callback.message.edit_text(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d, view="delete"))
 
