@@ -156,6 +156,5 @@ cython_debug/
 .idea/
 
 # Other
-settings.py
 credentials.json
 token.json
