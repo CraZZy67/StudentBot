@@ -12,7 +12,7 @@ try:
         def add_in_sheet(data: list):
             data.append("Занятий еще не было")
 
-            if gs.sheet_d != "empty":
+            if len(gs.sheet_d) > 0 and gs.sheet_d != "empty":
                 gs.sheet_d[f"{len(gs.sheet_d)}"] = data
             else:
                 gs.sheet_d = {"0": data}

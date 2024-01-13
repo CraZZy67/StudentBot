@@ -33,9 +33,9 @@ try:
                   InlineKeyboardButton(text="Назад", callback_data="BACK_TO_START"))
     format_kb.adjust(1, 1)
 
-    def confirm():
+    def confirm(data: str):
         builder_confirm = InlineKeyboardBuilder()
-        builder_confirm.add(InlineKeyboardButton(text="Подтвердить", callback_data="CONFIRM"),
+        builder_confirm.add(InlineKeyboardButton(text="Подтвердить", callback_data=data),
                             InlineKeyboardButton(text="Отмена", callback_data="CANCEL"))
         builder_confirm.adjust(2)
 
@@ -48,7 +48,7 @@ try:
 
         return builder_understand.as_markup()
 
-    def kb_for_list(sheet: dict):
+    def kb_for_list(sheet: dict, view: str):
         list_builder = InlineKeyboardBuilder()
         if len(sheet) > 0 and sheet != "empty":
 
@@ -56,7 +56,7 @@ try:
 
             for value in sheet.values():
                 list_builder.button(text=f"{count_line}. {value[0]}",
-                                    callback_data=CallbackStudent(type="list", order=count_line, name=f"{value[0]}")
+                                    callback_data=CallbackStudent(type=view, order=count_line, name=f"{value[0]}")
                                     )
                 count_line += 1
 

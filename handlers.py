@@ -84,7 +84,7 @@ try:
     async def handling_format(callback: CallbackQuery):
         if callback.data == "LOAD_SHEET":
             await callback.message.edit_text("Вы уверенны в том что хотите загрузить таблицу? "
-                                             "Все не сохраненные изменения будут потеряны!", reply_markup=confirm())
+                                             "Все не сохраненные изменения будут потеряны!", reply_markup=confirm(data="CONFIRM"))
         else:
             gs.update_sheet(gs.sheet_d)
             await callback.message.answer("Изменения успешно сохранены!", reply_markup=understand())

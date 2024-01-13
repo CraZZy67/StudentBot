@@ -25,3 +25,16 @@ def add_exam_value(count_str: str):
 
     else:
         return "finish"
+
+
+def shuffle(sheet: dict):
+    if len(sheet) > 0 and sheet != "empty":
+        shuffle_sheet = {}
+        count = 0
+
+        for v in sheet.values():
+            shuffle_sheet[f"{count}"] = v
+            count += 1
+        return shuffle_sheet
+    else:
+        return "empty"
