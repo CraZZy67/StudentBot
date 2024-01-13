@@ -5,8 +5,12 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from icecream import ic
 
 from settings import SCOPES, ID_SHEET, NAME_LIST
+
+
+ic.configureOutput(prefix="[INFO] ")
 
 
 class GoogleRequests:
@@ -46,7 +50,7 @@ class GoogleRequests:
                 sheet_dict[str(count)] = row
                 count += 1
             count = 0
-            print("Таблица успешно извлечена!")
+            ic("Таблица успешно извлечена!")
             self.sheet_d = sheet_dict if len(sheet_dict) > 0 else "empty"
 
         except HttpError as err:
@@ -63,15 +67,14 @@ class GoogleRequests:
             self.service = build("sheets", "v4", credentials=self.creds)
             sheet = self.service.spreadsheets()
 
-            result_clear = (sheet.values().clear(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D").execute())
-            print(f"Таблица успешно отчищена!, clearedRange : {result_clear['clearedRange']}")
+            sheet.values().clear(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D").execute()
+            ic("Таблица успешно отчищена!")
 
             if len(values) > 0:
-                result_update = (sheet.values().update(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D",
-                                 valueInputOption="USER_ENTERED", body={"values": values}).execute()
-                                 )
-                print(f"Таблица успешно обновлена!, updatedRange : {result_update['updatedRange']}, "
-                      f"updatedCells: {result_update['updatedCells']}")
+                (sheet.values().update(spreadsheetId=ID_SHEET, range=f"{NAME_LIST}!A2:D",
+                                       valueInputOption="USER_ENTERED", body={"values": values}).execute())
+
+                ic("Таблица успешно обновлена!")
 
         except HttpError as err:
             print(err)
