@@ -1,3 +1,5 @@
+# Реализованны обработки кнопок добавления занятий и их удаления.
+
 from datetime import datetime
 
 from aiogram import F, Router
@@ -48,7 +50,7 @@ try:
         ic("Обработана кнопка списка")
 
     @additional_router.callback_query(CallbackStudent.filter(F.type == "delete"))
-    async def handl_buttons_l(callback: CallbackQuery, callback_data: CallbackStudent):
+    async def handl_buttons_d(callback: CallbackQuery, callback_data: CallbackStudent):
         gs.sheet_d.pop(f"{callback_data.order - 1}")
         gs.sheet_d = shuffle(gs.sheet_d)
         await callback.message.edit_text(text=formatting_text(gs.sheet_d), reply_markup=kb_for_list(gs.sheet_d, view="delete"))

@@ -1,3 +1,5 @@
+# Фабрика колбеков для более удобной обработки кнопок.
+
 from aiogram.filters.callback_data import CallbackData
 
 

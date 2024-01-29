@@ -1,3 +1,9 @@
+""" Основной файл с обработчиками колбеков, состояний и команды /start.
+
+Восемь первых обработчиков отвечают за машину состояния и отлавливания состояний которые в них же и назначаются.
+Остальные обработчики выполняют функции подгрузки, сохранения и редактирования таблицы через ссылку на нее.
+"""
+
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import Command
@@ -92,7 +98,7 @@ try:
         ic("Обработано: {SAVE_CHANGES, LOAD_SHEET}")
 
     @basic_router.callback_query(F.data.in_({"UNDERSTAND", "CONFIRM", "CANCEL"}))
-    async def handling_format(callback: CallbackQuery):
+    async def handling_confirm(callback: CallbackQuery):
 
         if callback.data == "UNDERSTAND":
             await callback.message.delete()

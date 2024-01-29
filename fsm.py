@@ -1,3 +1,5 @@
+# Обозначение состояний FSM с помощью наследования и добавление данных в словарь.
+
 from aiogram.fsm.state import StatesGroup, State
 
 from google_requests import gs

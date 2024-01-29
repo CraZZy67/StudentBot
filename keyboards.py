@@ -1,3 +1,5 @@
+# Функции клавиатур для обработчиков.
+
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton, ReplyKeyboardMarkup
 
 from settings import URL_TABLE
