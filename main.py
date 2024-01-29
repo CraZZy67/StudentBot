@@ -1,3 +1,5 @@
+# Основной исполняемый файл, где происходит запуск бота.
+
 from asyncio import run
 from icecream import ic
 

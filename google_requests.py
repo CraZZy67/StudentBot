@@ -14,6 +14,9 @@ ic.configureOutput(prefix="[INFO] ")
 
 
 class GoogleRequests:
+
+    # Класс для создания запросов в Google sheet API
+
     def __init__(self):
 
         self.creds = None
@@ -49,7 +52,7 @@ class GoogleRequests:
             for row in values:
                 sheet_dict[str(count)] = row
                 count += 1
-            count = 0
+
             ic("Таблица успешно извлечена!")
             self.sheet_d = sheet_dict if len(sheet_dict) > 0 else "empty"
 
