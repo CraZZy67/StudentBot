@@ -19,9 +19,8 @@ LESSONS = \
 
 from aiogram.utils.keyboard import KeyboardButton
 
-ID_SHEET = "1eCD4AWihcoPY_KgiNNX6kRkFHHHdWpps3OeUvFL2w_0"
-NAME_LIST = "StudentINF"
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+
+NAME_TABLE = "DbArsBot"
 LESSONS_L = ["roblox", "web", "minecraft", "unity"]  # список доступных занятий (менять вместе с нижним вложенным списком)
 LESSONS = \
  [
