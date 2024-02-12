@@ -17,10 +17,12 @@ class GoogleRequests:
         count = 0
         sheet_dict = dict()
         values = self.wks.get("A2:D")
-        if len(values[])
-        for row in values:
-            sheet_dict[str(count)] = row
-            count += 1
+        if len(values[0]) != 0:
+            for row in values:
+                sheet_dict[str(count)] = row
+                count += 1
+        else:
+            ic("Пустая таблица или таблица с пробелом будет ровняться значению empty!")
 
         ic("Таблица успешно извлечена!")
         self.sheet_d = sheet_dict if len(sheet_dict) > 0 else "empty"
@@ -41,4 +43,3 @@ class GoogleRequests:
 
 gs = GoogleRequests()
 gs.get_sheet()
-print(gs.sheet_d)
