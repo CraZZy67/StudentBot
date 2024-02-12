@@ -21,6 +21,7 @@ from aiogram.utils.keyboard import KeyboardButton
 
 ID_SHEET = "1eCD4AWihcoPY_KgiNNX6kRkFHHHdWpps3OeUvFL2w_0"
 NAME_LIST = "StudentINF"
+NAME_TABLE = "DbArsBot"
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 LESSONS_L = ["roblox", "web", "minecraft", "unity"]  # список доступных занятий (менять вместе с нижним вложенным списком)
 LESSONS = \
